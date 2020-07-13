@@ -35,9 +35,8 @@ class CharacterTests {
     }
 
     @Test fun `heal should increase ally's health`() {
-        val ally = Character().apply {
-            health = 500
-        }
+        val ally = Character()
+        this.character.attack(ally, 500)
         this.character.heal(ally, 100)
         assertEquals(600, ally.health)
     }
@@ -55,18 +54,15 @@ class CharacterTests {
     }
 
     @Test fun `ally's health shouldn't exceed 1000`() {
-        val ally = Character().apply {
-            health = 500
-        }
+        val ally = Character()
+        this.character.attack(ally, 500)
         this.character.heal(ally, 600)
         assertEquals(1000, ally.health)
     }
 
-    @Test fun `dead ally's can't be healed`() {
-        val ally = Character().apply {
-            health = 0
-            alive = false
-        }
+    @Test fun `dead allies cannot be healed`() {
+        val ally = Character()
+        this.character.attack(ally, 8001)
         this.character.heal(ally, 600)
         assertEquals(0, ally.health)
     }

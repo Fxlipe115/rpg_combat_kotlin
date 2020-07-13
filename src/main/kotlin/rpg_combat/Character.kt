@@ -1,27 +1,23 @@
 package rpg_combat
 
-import kotlin.math.max
-
 class Character {
     var health: Int = 1000
+        private set(value) {
+            field = if (value < 0) 0 else if (value > 1000) 1000 else value
+        }
+
     var level: Int = 1
-    var alive: Boolean = true
+
+    val alive: Boolean
+        get() = this.health > 0
 
     fun attack(enemy: Character, damage: Int) {
         enemy.health -= damage
-        if (enemy.health <= 0) {
-            enemy.health = 0
-            enemy.alive = false
-        }
     }
 
     fun heal(ally: Character, lifePoints: Int) {
-        if (!ally.alive) {
-            return
-        }
-        ally.health += lifePoints
-        if (ally.health > 1000) {
-            ally.health = 1000
+        if (ally.alive) {
+            ally.health += lifePoints
         }
     }
 }
