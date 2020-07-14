@@ -11,9 +11,19 @@ class Character {
     val alive: Boolean
         get() = this.health > 0
 
-    fun attack(enemy: Character, damage: Int) {
-        if (this !== enemy) {
-            enemy.health -= damage
+    fun attack(enemy: Character, baseDamage: Int) {
+        if (this === enemy) {
+            return
+        }
+        enemy.health -= actualDamage(enemy, baseDamage)
+    }
+
+    private fun actualDamage(enemy: Character, baseDamage: Int): Int {
+        val levelDifference = this.level - enemy.level
+        return when {
+            levelDifference >= 5 -> (baseDamage * 1.5).toInt()
+            levelDifference <= -5 -> (baseDamage * 0.5).toInt()
+            else -> baseDamage
         }
     }
 

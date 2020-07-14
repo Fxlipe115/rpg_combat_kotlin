@@ -71,4 +71,19 @@ class CharacterTests {
         this.character.heal(600)
         assertEquals(0, character.health)
     }
+
+    @Test fun `half damage if enemy is 5 or more levels above character`() {
+        val enemy = Character().apply {
+            level = 6
+        }
+        character.attack(enemy, 200)
+        assertEquals(900, enemy.health)
+    }
+
+    @Test fun `150% damage if enemy is 5 or more levels below character`() {
+        val enemy = Character()
+        character.level = 6
+        character.attack(enemy, 200)
+        assertEquals(700, enemy.health)
+    }
 }
