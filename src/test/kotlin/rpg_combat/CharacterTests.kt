@@ -53,6 +53,11 @@ class CharacterTests {
         assertEquals(0, enemy.health)
     }
 
+    @Test fun `character can't damage itself`() {
+        character.attack(character, 100)
+        assertEquals(1000, character.health)
+    }
+
     @Test fun `ally's health shouldn't exceed 1000`() {
         val ally = Character()
         this.character.attack(ally, 500)

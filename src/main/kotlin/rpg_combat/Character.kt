@@ -12,7 +12,9 @@ class Character {
         get() = this.health > 0
 
     fun attack(enemy: Character, damage: Int) {
-        enemy.health -= damage
+        if (this !== enemy) {
+            enemy.health -= damage
+        }
     }
 
     fun heal(ally: Character, lifePoints: Int) {
