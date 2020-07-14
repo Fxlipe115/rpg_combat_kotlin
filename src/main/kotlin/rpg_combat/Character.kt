@@ -17,9 +17,9 @@ class Character {
         }
     }
 
-    fun heal(ally: Character, lifePoints: Int) {
-        if (ally.alive) {
-            ally.health += lifePoints
+    fun heal(lifePoints: Int) {
+        if (this.alive) {
+            this.health += lifePoints
         }
     }
 }
