@@ -3,6 +3,7 @@ package rpg_combat
 import org.junit.Before
 import kotlin.test.assertEquals
 import org.junit.Test
+import rpg_combat.rpg_combat.Position
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -98,5 +99,15 @@ class CharacterTests {
     @Test fun `Ranged fighters have an attack range of 20 meters`() {
         character = RangedFighter()
         assertEquals(20, character.maxAttackRange)
+    }
+
+    @Test fun `Character must be in range to deal damage to a target`() {
+        character = MeleeFighter()
+        val enemy = RangedFighter().apply {
+            position = Position(3.0, 0.0)
+        }
+        assertFailsWith(Exception::class) {
+            character.attack(enemy,100)
+        }
     }
 }

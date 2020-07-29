@@ -1,5 +1,7 @@
 package rpg_combat
 
+import rpg_combat.rpg_combat.Position
+
 open class Character {
     var health: Int = 1000
         private set(value) {
@@ -13,16 +15,23 @@ open class Character {
 
     open val maxAttackRange = 2
 
+    var position = Position(0.0, 0.0)
+
     fun attack(enemy: Character, baseDamage: Int) {
-        if (this === enemy) {
+        if (attackingSelf(enemy)) {
             throw Exception("Can't attack yourself")
         }
-        val attackType = actualDamage(enemy)
+        if (!isInRange(enemy)) {
+            throw Exception("Enemy is too far")
+        }
+        val attackType = attackType(enemy)
         val attack = AttackFactory.createAttack(attackType, baseDamage)
         enemy.health -= attack.damage
     }
 
-    private fun actualDamage(enemy: Character): AttackType {
+    private fun attackingSelf(enemy: Character) = this === enemy
+
+    private fun attackType(enemy: Character): AttackType {
         val levelDifference = this.level - enemy.level
         return if (levelDifference >= 5) {
             AttackType.ADVANTAGE
@@ -31,6 +40,10 @@ open class Character {
         } else {
             AttackType.NORMAL
         }
+    }
+
+    private fun isInRange(enemy: Character): Boolean {
+        return this.position.distanceTo(enemy.position) < this.maxAttackRange
     }
 
     fun heal(lifePoints: Int) {
