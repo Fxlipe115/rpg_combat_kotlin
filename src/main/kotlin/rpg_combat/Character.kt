@@ -25,7 +25,7 @@ open class Character {
             throw Exception("Enemy is too far")
         }
         val attackType = attackType(enemy)
-        val attack = AttackFactory.createAttack(attackType, baseDamage)
+        val attack = Attack.Factory.createAttack(attackType, baseDamage)
         enemy.health -= attack.damage
     }
 

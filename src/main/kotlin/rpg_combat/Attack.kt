@@ -2,6 +2,14 @@ package rpg_combat
 
 open class Attack(baseDamage : Int) {
     open val damage = baseDamage
+
+    companion object Factory{
+        fun createAttack(type: AttackType, baseDamage: Int) : Attack = when (type) {
+            AttackType.NORMAL -> Attack(baseDamage)
+            AttackType.ADVANTAGE -> AdvantageAttack(baseDamage)
+            AttackType.DISADVANTAGE -> DisadvantageAttack(baseDamage)
+        }
+    }
 }
 
 class AdvantageAttack(baseDamage : Int) : Attack(baseDamage) {
