@@ -1,6 +1,6 @@
 package rpg_combat
 
-class Character {
+open class Character {
     var health: Int = 1000
         private set(value) {
             field = if (value < 0) 0 else if (value > 1000) 1000 else value
@@ -10,6 +10,8 @@ class Character {
 
     val alive: Boolean
         get() = this.health > 0
+
+    open val maxAttackRange = 2
 
     fun attack(enemy: Character, baseDamage: Int) {
         if (this === enemy) {
@@ -37,4 +39,14 @@ class Character {
         }
         this.health += lifePoints
     }
+}
+
+class MeleeFighter : Character() {
+    override val maxAttackRange: Int
+        get() = 2
+}
+
+class RangedFighter : Character() {
+    override val maxAttackRange: Int
+        get() = 20
 }

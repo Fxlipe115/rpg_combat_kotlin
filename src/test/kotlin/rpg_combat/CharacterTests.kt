@@ -89,4 +89,14 @@ class CharacterTests {
         character.attack(enemy, 200)
         assertEquals(700, enemy.health)
     }
+
+    @Test fun `Melee fighters have an attack range of 2 meters`() {
+        character = MeleeFighter()
+        assertEquals(2, character.maxAttackRange)
+    }
+
+    @Test fun `Ranged fighters have an attack range of 20 meters`() {
+        character = RangedFighter()
+        assertEquals(20, character.maxAttackRange)
+    }
 }
