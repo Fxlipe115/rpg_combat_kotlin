@@ -13,23 +13,28 @@ class Character {
 
     fun attack(enemy: Character, baseDamage: Int) {
         if (this === enemy) {
-            return
+            throw Exception("Can't attack yourself")
         }
-        enemy.health -= actualDamage(enemy, baseDamage)
+        val attackType = actualDamage(enemy)
+        val attack = AttackFactory.createAttack(attackType, baseDamage)
+        enemy.health -= attack.damage
     }
 
-    private fun actualDamage(enemy: Character, baseDamage: Int): Int {
+    private fun actualDamage(enemy: Character): AttackType {
         val levelDifference = this.level - enemy.level
-        return when {
-            levelDifference >= 5 -> (baseDamage * 1.5).toInt()
-            levelDifference <= -5 -> (baseDamage * 0.5).toInt()
-            else -> baseDamage
+        return if (levelDifference >= 5) {
+            AttackType.ADVANTAGE
+        } else if (levelDifference <= -5) {
+            AttackType.DISADVANTAGE
+        } else {
+            AttackType.NORMAL
         }
     }
 
     fun heal(lifePoints: Int) {
-        if (this.alive) {
-            this.health += lifePoints
+        if (!this.alive) {
+            throw Exception("Character is dead")
         }
+        this.health += lifePoints
     }
 }

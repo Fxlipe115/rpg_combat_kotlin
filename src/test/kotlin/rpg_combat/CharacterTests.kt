@@ -3,6 +3,7 @@ package rpg_combat
 import org.junit.Before
 import kotlin.test.assertEquals
 import org.junit.Test
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -54,8 +55,9 @@ class CharacterTests {
     }
 
     @Test fun `character can't damage itself`() {
-        character.attack(character, 100)
-        assertEquals(1000, character.health)
+        assertFailsWith(Exception::class) {
+            character.attack(character, 100)
+        }
     }
 
     @Test fun `character health cannot exceed 1000 after healing`() {
@@ -68,8 +70,9 @@ class CharacterTests {
     @Test fun `dead character cannot be healed`() {
         val enemy = Character()
         enemy.attack(character, 8001)
-        this.character.heal(600)
-        assertEquals(0, character.health)
+        assertFailsWith(Exception::class) {
+            this.character.heal(600)
+        }
     }
 
     @Test fun `half damage if enemy is 5 or more levels above character`() {
